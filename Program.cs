@@ -2,6 +2,7 @@ using System.Text;
 using DatingAppServer.Data;
 using DatingAppServer.Extensions;
 using DatingAppServer.Interfaces;
+using DatingAppServer.Middleware;
 using DatingAppServer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,11 @@ builder.Services.AddIdentityServices(builder.Configuration);
 var app = builder.Build();
 
 /*Configure the HTTP request pipeline.*/
+
+//Adding Exceptioon Middleware on the top of request pipeline
+app.UseMiddleware<ExceptionMiddleware>();
+
+//Cross Origin Response Service utilisation
 app.UseCors(options => options
     .AllowAnyHeader()
     .AllowAnyMethod()
