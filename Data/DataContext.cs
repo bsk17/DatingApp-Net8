@@ -20,4 +20,8 @@ public class DataContext : DbContext
 public class DataContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<AppUser> Users { get; set; }
+
+    //We are not going to create a DbSet specifically for Photo entity
+    //we don't have to query that seperately.
+
 }
