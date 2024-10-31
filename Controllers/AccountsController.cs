@@ -61,7 +61,8 @@ public class AccountsController(DataContext context, ITokenService tokenService)
     {
         /// This will return user if found otherwise a null value
         var user = await context.Users
-        .FirstOrDefaultAsync(x => x.UserName == loginDTO.Username.ToLower());
+        .Include(u => u.Photos)
+        .FirstOrDefaultAsync(u => u.UserName == loginDTO.Username.ToLower());
 
         //when user is null
         if (user == null)
@@ -84,7 +85,8 @@ public class AccountsController(DataContext context, ITokenService tokenService)
         return new UserDTO
         {
             Username = user.UserName,
-            Token = tokenService.CreateToken(user)
+            Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url
         };
     }
 
